@@ -5,6 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <modules>
         <module>oauth-github-study</module>
+        <module>oauth-qq-study</module>
     </modules>
 
     <parent>
