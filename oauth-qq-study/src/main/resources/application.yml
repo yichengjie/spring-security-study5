@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 80
 
 logging:
   level:
@@ -14,18 +14,18 @@ spring:
       client:
         registration:
           github:
-            client-id: {custom}
-            client-secret: {custom}
-            redirect-uri-template: "{baseUrl}/register/social/{registrationId}"
+            client-id: 00481ad93fff331618bc
+            client-secret: 93593bd61861e311d478ebfba5892a21568ea606
+            redirect-uri-template: "http://localhost:8080/login/oauth2/code/{registrationId}"
           qq:
-            client-id: {custom appId}
-            client-secret: {custom appKey}
+            client-id: 100550231
+            client-secret: 69b6ab57b22f3c2fe6a6149274e3295e
             provider: qq
             client-name: QQ登录
             authorization-grant-type: authorization_code
             client-authentication-method: post
             scope: get_user_info,list_album,upload_pic,do_like
-            redirect-uri-template: "{baseUrl}/register/social/{registrationId}"
+            redirect-uri-template: "http://www.pinzhi365.com/qqLogin/{registrationId}"
         provider:
           qq:
             authorization-uri: https://graph.qq.com/oauth2.0/authorize
@@ -33,3 +33,31 @@ spring:
             # 配置为QQ获取OpenId的URL
             user-info-uri: https://graph.qq.com/oauth2.0/me
             user-name-attribute: "nickname"
+
+#  spring.thymeleaf.prefix=classpath:/templates/
+#  spring.thymeleaf.suffix=.html
+#  spring.thymeleaf.mode=LEGACYHTML5
+#  spring.thymeleaf.encoding=UTF-8
+#  spring.thymeleaf.content-type=text/html
+#  spring.thymeleaf.cache=false
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

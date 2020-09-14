@@ -40,7 +40,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .userService(this.oauth2UserService())
                 // 可选，要保证与redirect-uri-template匹配
                 .and()
-                .redirectionEndpoint().baseUri("/register/social/**");
+                //.redirectionEndpoint().baseUri("/register/social/**");
+                .redirectionEndpoint().baseUri("/qqLogin/**");
+                //.redirectionEndpoint().baseUri("/login/oauth2/code/**");
 
         // 自定义登录页面
         http.oauth2Login().loginPage(loginPagePath) ;

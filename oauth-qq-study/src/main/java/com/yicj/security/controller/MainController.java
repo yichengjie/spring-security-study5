@@ -23,7 +23,7 @@ public class MainController {
         return "index" ;
     }
 
-    @GetMapping("/login/oauth2")
+    @GetMapping("/login/oauth2")//login/oauth2
     public String login(){
         return "login" ;
     }
