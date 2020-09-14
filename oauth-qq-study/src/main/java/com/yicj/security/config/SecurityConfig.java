@@ -37,10 +37,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .userInfoEndpoint().customUserType(QQUserInfo.class, QQRegistrationId)
                 // 使用CompositeOAuth2UserService
-                .userService(this.oauth2UserService()) ;
+                .userService(this.oauth2UserService())
                 // 可选，要保证与redirect-uri-template匹配
                 //.and()
                 //.redirectionEndpoint().baseUri("/qqLogin/**") ;
+                // 登录默认拦截地址/oauth2/authorization/*开头的地址，可以自定义
+                .and()
+                .authorizationEndpoint().baseUri("/oauth2/authorization/")
+        ;
         // 自定义登录页面
         http.oauth2Login().loginPage(loginPagePath) ;
     }
