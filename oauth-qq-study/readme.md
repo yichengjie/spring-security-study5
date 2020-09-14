@@ -1,4 +1,4 @@
-1. 添加项目依赖
++ 添加项目依赖
 ``` text
    <dependency>
        <groupId>org.springframework.boot</groupId>
@@ -27,7 +27,7 @@
    </dependency>
    <!--spring security 为 oauth提供支持的专用依赖包 end-->     
 ```
-2. 自定义QQUserInfo实现OAuth2User接口
++ 自定义QQUserInfo实现OAuth2User接口
 ```text
 @Data
 public class QQUserInfo implements OAuth2User {
@@ -76,7 +76,7 @@ public class QQUserInfo implements OAuth2User {
     }
 }
 ```
-3. 添加RestTemplate解析模板
++ 添加RestTemplate解析模板
 ```text
 public class JacksonFromTextHtmlHttpMessageConverter extends MappingJackson2HttpMessageConverter {
     // 添加对text/html的支持
@@ -110,7 +110,7 @@ public class TextHtmlHttpMessageConverter extends AbstractHttpMessageConverter<S
     }
 }
 ```
-4. 自定义OAuth2AccessTokenResponseClient实现了以code交换access_token的具体逻辑
++ 自定义OAuth2AccessTokenResponseClient实现了以code交换access_token的具体逻辑
 ```text
 // 默认NimbusAuthorizationCodeTokenResponseClient可以实现标准的OAuth交换access_token的具体逻辑，
 // 但QQ提供的方式并不标准，所以需要自定义实现OAuth2AccessTokenResponseClient
@@ -161,7 +161,7 @@ public class QQOauth2AccessTokenResponseClient implements OAuth2AccessTokenRespo
     }
 }
 ```
-5. 实现OAuth2UserService接口获取用户信息
++ 实现OAuth2UserService接口获取用户信息
 ```text
 // Auth2UserService 负责请求用户信息(OAuth2User)。
 // 标准的OAuth可以直接携带access_token请求用户信息,但是QQ需要获取到OpenId才能使用
@@ -202,7 +202,7 @@ public class QQOAuth2UserService implements OAuth2UserService<OAuth2UserRequest,
     }
 }
 ```
-6. 多个OAuth服务提供商并存
++ 多个OAuth服务提供商并存
 ```text
 // 前面我们通过自定义实现QQOauth2AccessTokenResponseClient和QQOAuth2UserService来支持QQ登录
 // 但如果直接使用他们分别替代默认NimbusAuthorizationCodeTokenResponseClient和DefaultOAuth2UserService,
@@ -261,7 +261,7 @@ public class CompositeOAuth2UserService implements OAuth2UserService<OAuth2UserR
     }
 }
 ```
-7. 配置Spring Security
++ 配置Spring Security
 ```text
 // 从Spring Security5.0开始，HttpSecurity中提供了用于配置OAuth客户端的策略OAuth2Login()方法
 // 关于重定向端点redirectionEndpoint的配置是可选的，需要注意的是，当多个OAuth服务提供商并存时，
@@ -310,7 +310,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 }
 ```
-8. 工程配置文件
++ 工程配置文件
 ```text
 server:
   port: 8080
@@ -347,5 +347,33 @@ spring:
             # 配置为QQ获取OpenId的URL
             user-info-uri: https://graph.qq.com/oauth2.0/me
             user-name-attribute: "nickname"
+```
++ 编写controller类
+```text
+// OAuth2AuthenticationToken可以获取当前用户信息，由Spring Security自动注入，
+//OAuth2AuthorizedClientService对象可以用来获取当前已经认证成功的OAuth客户端信息
+@Controller
+public class MainController {
+    @Autowired
+    private OAuth2AuthorizedClientService authorizedClientService ;
+
+    @GetMapping("/")
+    public String index(Model model, OAuth2AuthenticationToken authentication){
+        OAuth2AuthorizedClient authorizedClient = this.getAuthorizedClient(authentication) ;
+        model.addAttribute("userName", authentication.getName()) ;
+        model.addAttribute("clientName", authorizedClient.getClientRegistration().getClientName()) ;
+        return "index" ;
+    }
+
+    @GetMapping("/login/oauth2")
+    public String login(){
+        return "login" ;
+    }
+
+    private OAuth2AuthorizedClient getAuthorizedClient(OAuth2AuthenticationToken authentication) {
+        return this.authorizedClientService.loadAuthorizedClient(
+                authentication.getAuthorizedClientRegistrationId(), authentication.getName()) ;
+    }
+}
 ```
 
