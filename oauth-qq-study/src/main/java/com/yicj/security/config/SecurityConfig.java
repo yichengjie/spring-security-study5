@@ -5,6 +5,8 @@ import com.yicj.security.common.CompositeOauth2AccessTokenResponseClient;
 import com.yicj.security.qq.QQOAuth2UserService;
 import com.yicj.security.qq.QQOauth2AccessTokenResponseClient;
 import com.yicj.security.qq.QQUserInfo;
+import com.yicj.security.wechat.WeChatOAuth2UserService;
+import com.yicj.security.wechat.WeChatOauth2AccessTokenResponseClient;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -54,6 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         CompositeOauth2AccessTokenResponseClient client = new CompositeOauth2AccessTokenResponseClient() ;
         //加入QQ自定义QQOauth2AccessTokenResponseClient
         client.getClients().put(QQRegistrationId, new QQOauth2AccessTokenResponseClient()) ;
+        client.getClients().put(WeChatRegistrationId, new WeChatOauth2AccessTokenResponseClient()) ;
         return client ;
     }
 
@@ -61,6 +64,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         CompositeOAuth2UserService service = new CompositeOAuth2UserService() ;
         // 加入QQ自定义QQOAuth2UserService
         service.getUserServices().put(QQRegistrationId, new QQOAuth2UserService()) ;
+        service.getUserServices().put(WeChatRegistrationId, new WeChatOAuth2UserService()) ;
         return service ;
     }
 }
