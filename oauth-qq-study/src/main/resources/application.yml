@@ -33,7 +33,7 @@ spring:
             client-name: 微信登录
             authorization-grant-type: authorization_code
             client-authentication-method: post
-            scope: snsapi_userinfo
+            scope: snsapi_login
             redirect-uri-template: "{baseUrl}/qqLogin/weixin"
         provider:
           qq:
