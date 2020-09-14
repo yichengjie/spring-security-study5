@@ -16,7 +16,7 @@ spring:
           github:
             client-id: 00481ad93fff331618bc
             client-secret: 93593bd61861e311d478ebfba5892a21568ea606
-            redirect-uri-template: "{baseUrl}/login/oauth2/code/{registrationId}"
+            redirect-uri-template: "{baseUrl}/qqLogin/{registrationId}?action={action}"
           qq:
             client-id: 100550231
             client-secret: 69b6ab57b22f3c2fe6a6149274e3295e
@@ -25,7 +25,7 @@ spring:
             authorization-grant-type: authorization_code
             client-authentication-method: post
             scope: get_user_info,list_album,upload_pic,do_like
-            redirect-uri-template: "{baseUrl}/qqLogin/callback.do"
+            redirect-uri-template: "{baseUrl}/qqLogin/callback.do?action={action}"
         provider:
           qq:
             authorization-uri: https://graph.qq.com/oauth2.0/authorize

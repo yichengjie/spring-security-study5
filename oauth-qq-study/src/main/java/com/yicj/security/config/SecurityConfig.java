@@ -39,8 +39,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 使用CompositeOAuth2UserService
                 .userService(this.oauth2UserService())
                 // 可选，要保证与redirect-uri-template匹配
-                //.and()
-                //.redirectionEndpoint().baseUri("/qqLogin/**") ;
+                .and()
+                // 这里配置为qqLogin以后则github无法登录，除非github的重定向地址也修改为以/qqLogin/开头的i地址
+                .redirectionEndpoint().baseUri("/qqLogin/**")
                 // 登录默认拦截地址/oauth2/authorization/*开头的地址，可以自定义
                 .and()
                 .authorizationEndpoint().baseUri("/oauth2/authorization/")
