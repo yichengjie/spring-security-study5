@@ -27,6 +27,9 @@ public class WeChatOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                 .getUserInfoEndpoint().getUri() +"?access_token={accessToken}&openid={openId}" ;
         WeChatUserInfo userInfo = getRestTemplate().getForObject(
                 getUserInfoUrl, WeChatUserInfo.class, accessToken, openId) ;
+        if (userInfo == null || (userInfo.getNickname() == null)){
+            return null ;
+        }
         return userInfo;
     }
 

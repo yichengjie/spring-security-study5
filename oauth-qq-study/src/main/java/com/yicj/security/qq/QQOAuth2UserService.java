@@ -29,13 +29,15 @@ public class QQOAuth2UserService implements OAuth2UserService<OAuth2UserRequest,
         // 第二步：获取用户信息
         String appId = userRequest.getClientRegistration().getClientId() ;
 
-        QQUserInfo qqUserInfo = getRestTemplate().getForObject(
+        QQUserInfo userInfo = getRestTemplate().getForObject(
                 QQ_URL_GET_USER_INFO, QQUserInfo.class, appId, openId, accessToken) ;
-        // 为用户信息类补充openId
-        if (qqUserInfo != null){
-            qqUserInfo.setOpenId(openId);
+        if (userInfo == null || userInfo.getNickname() == null){
+            return null ;
+        }else {
+            // 为用户信息类补充openId
+            userInfo.setOpenId(openId);
         }
-        return qqUserInfo;
+        return userInfo;
     }
 
     private RestTemplate getRestTemplate(){
