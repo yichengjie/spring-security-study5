@@ -5,13 +5,19 @@ import com.yicj.security.common.CompositeOauth2AccessTokenResponseClient;
 import com.yicj.security.qq.QQOAuth2UserService;
 import com.yicj.security.qq.QQOauth2AccessTokenResponseClient;
 import com.yicj.security.qq.QQUserInfo;
+import com.yicj.security.wechat.WeChatOAuth2AuthorizationRequestResolver;
 import com.yicj.security.wechat.WeChatOAuth2UserService;
 import com.yicj.security.wechat.WeChatOauth2AccessTokenResponseClient;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.oauth2.client.endpoint.OAuth2AccessTokenResponseClient;
 import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCodeGrantRequest;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -25,6 +31,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public static final String QQRegistrationId = "qq" ;
     public static final String WeChatRegistrationId = "wechat" ;
     public static final String loginPagePath = "/login/oauth2" ;
+
+    @Autowired
+    private WeChatOAuth2AuthorizationRequestResolver requestResolver ;
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -47,7 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 登录默认拦截地址/oauth2/authorization/*开头的地址，可以自定义
                 .and()
                 .authorizationEndpoint()
-                //.authorizationRequestResolver()
+                .authorizationRequestResolver(requestResolver)
                 .baseUri("/oauth2/authorization/")
         ;
         // 自定义登录页面
@@ -68,5 +78,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         service.getUserServices().put(QQRegistrationId, new QQOAuth2UserService()) ;
         service.getUserServices().put(WeChatRegistrationId, new WeChatOAuth2UserService()) ;
         return service ;
+    }
+
+
+    @Bean
+    public WeChatOAuth2AuthorizationRequestResolver requestResolver(ClientRegistrationRepository clientRegistrationRepository){
+        WeChatOAuth2AuthorizationRequestResolver requestResolver =
+                new WeChatOAuth2AuthorizationRequestResolver(clientRegistrationRepository,"/oauth2/authorization/") ;
+        return requestResolver ;
     }
 }
