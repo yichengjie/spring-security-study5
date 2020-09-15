@@ -9,9 +9,9 @@ import java.util.List;
 // 添加RestTemplate解析模板
 public class JacksonFromTextHtmlHttpMessageConverter extends MappingJackson2HttpMessageConverter {
     // 添加对text/html的支持
-    public JacksonFromTextHtmlHttpMessageConverter(){
+    public JacksonFromTextHtmlHttpMessageConverter(MediaType mediaType){
         List<MediaType> mediaTypes = new ArrayList() ;
-        mediaTypes.add(MediaType.TEXT_HTML) ;
+        mediaTypes.add(mediaType) ;
         setSupportedMediaTypes(mediaTypes);
     }
 }

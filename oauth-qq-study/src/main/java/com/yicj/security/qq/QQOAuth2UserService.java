@@ -2,6 +2,7 @@ package com.yicj.security.qq;
 
 
 import com.yicj.security.common.JacksonFromTextHtmlHttpMessageConverter;
+import org.springframework.http.MediaType;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -41,7 +42,7 @@ public class QQOAuth2UserService implements OAuth2UserService<OAuth2UserRequest,
         if (restTemplate == null){
             restTemplate = new RestTemplate() ;
             // 通过jackson json processing library 直接将返回值绑定到对象
-            restTemplate.getMessageConverters().add(new JacksonFromTextHtmlHttpMessageConverter()) ;
+            restTemplate.getMessageConverters().add(new JacksonFromTextHtmlHttpMessageConverter(MediaType.TEXT_HTML)) ;
         }
         return restTemplate ;
     }
