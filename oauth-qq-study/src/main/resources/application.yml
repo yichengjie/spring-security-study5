@@ -37,7 +37,7 @@ spring:
             redirect-uri-template: "{baseUrl}/qqLogin/weixin"
         provider:
           qq:
-            authorization-uri: https://graph.qq.com/oauth2.0/authorize
+            authorization-uri: https://graph.qq.com/oauth2.0/authorize?appid={client_id}
             token-uri: https://graph.qq.com/oauth2.0/token
             # 配置为QQ获取OpenId的URL
             user-info-uri: https://graph.qq.com/oauth2.0/me
