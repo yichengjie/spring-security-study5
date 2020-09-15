@@ -6,8 +6,6 @@ import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequest
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestResolver;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
-import java.util.function.Consumer;
 
 public class WeChatOAuth2AuthorizationRequestResolver implements OAuth2AuthorizationRequestResolver {
     private DefaultOAuth2AuthorizationRequestResolver requestResolver ;
