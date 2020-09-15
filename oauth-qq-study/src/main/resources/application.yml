@@ -37,13 +37,13 @@ spring:
             redirect-uri-template: "{baseUrl}/qqLogin/weixin"
         provider:
           qq:
-            authorization-uri: https://graph.qq.com/oauth2.0/authorize?appid={client_id}
+            authorization-uri: "https://graph.qq.com/oauth2.0/authorize?appid={client_id}"
             token-uri: https://graph.qq.com/oauth2.0/token
             # 配置为QQ获取OpenId的URL
             user-info-uri: https://graph.qq.com/oauth2.0/me
             user-name-attribute: "nickname"
           wechat:
-            authorization-uri: https://open.weixin.qq.com/connect/qrconnect
+            authorization-uri: "https://open.weixin.qq.com/connect/qrconnect?appid={client_id}"
             token-uri: https://api.weixin.qq.com/sns/oauth2/access_token
             # 配置微信获取用户信息地址
             user-info-uri: https://api.weixin.qq.com/sns/userinfo

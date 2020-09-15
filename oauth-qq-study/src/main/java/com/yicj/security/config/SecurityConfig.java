@@ -46,7 +46,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .redirectionEndpoint().baseUri("/qqLogin/**")
                 // 登录默认拦截地址/oauth2/authorization/*开头的地址，可以自定义
                 .and()
-                .authorizationEndpoint().baseUri("/oauth2/authorization/")
+                .authorizationEndpoint()
+                //.authorizationRequestResolver()
+                .baseUri("/oauth2/authorization/")
         ;
         // 自定义登录页面
         http.oauth2Login().loginPage(loginPagePath) ;
